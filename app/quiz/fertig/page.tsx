@@ -10,8 +10,8 @@ export default function QuizFinished() {
         Danke fürs Mitmachen
       </h1>
       <p className="text-lg leading-8 text-slate-700">
-        Deine Antworten wurden nicht gespeichert oder versendet. Eine Auswertung
-        und eine Buchung sind derzeit nicht verfügbar.
+        Deine Antworten wurden nicht gespeichert oder versendet. Die Auswertung
+        erscheint direkt nach dem Quizabschluss.
       </p>
       <Link
         className="inline-flex min-h-12 w-fit items-center justify-center rounded-lg bg-emerald-800 px-6 py-3 font-semibold text-white hover:bg-emerald-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
