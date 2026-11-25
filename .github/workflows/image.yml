@@ -13,6 +13,23 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://quiz:quiz@localhost:5432/quiz
+      BASE_URL: http://localhost:3000
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: quiz
+          POSTGRES_PASSWORD: quiz
+          POSTGRES_DB: quiz
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U quiz -d quiz"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -21,7 +38,23 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - run: psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f migrations/001_create_leads.sql
       - run: pnpm test
+      - name: Run PostgreSQL integration test
+        run: |
+          pnpm dev > /tmp/quizz-demo.log 2>&1 &
+          app_pid=$!
+          trap 'kill "$app_pid"' EXIT
+          for attempt in {1..60}; do
+            if curl --fail --silent "$BASE_URL" >/dev/null; then
+              pnpm test:integration
+              exit
+            fi
+            sleep 1
+          done
+          cat /tmp/quizz-demo.log
+          exit 1
   image:
     needs: test
     runs-on: ubuntu-latest
