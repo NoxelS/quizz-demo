@@ -23,4 +23,4 @@ Run `node --env-file=.env.local --experimental-strip-types --test app/api/leads/
 
 ## Tests
 
-Requires Node.js 22. Run function tests with `pnpm test`; test files belong under `app` and use the `*.test.mjs` naming convention.
+Requires Node.js 22. `pnpm test` runs the function tests. The PostgreSQL API integration test is separate and requires the running app and migrated local database described above.

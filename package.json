@@ -9,7 +9,7 @@
     "lint": "biome check",
     "format": "biome format --write",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "node --experimental-strip-types --test 'app/**/*.test.mjs'"
+    "test": "node --experimental-strip-types --test app/quiz/evaluation.test.mjs"
   },
   "dependencies": {
     "next": "16.4.6",
