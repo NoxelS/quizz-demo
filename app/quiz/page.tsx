@@ -66,28 +66,30 @@ export default function Quiz() {
           </fieldset>
         ))}
 
-        <div>
-          <label
-            className="flex min-h-12 cursor-pointer items-center gap-3 text-slate-800"
-            htmlFor="injuries"
-          >
+        <fieldset className="space-y-3">
+          <legend className="mb-3 text-lg font-semibold text-slate-950">
+            4. Hattest du in den letzten 12 Monaten eine Verletzung oder
+            Operation?
+          </legend>
+          <label className="flex min-h-12 cursor-pointer items-center gap-3 text-slate-800">
             <input
               className="size-5 accent-emerald-800"
-              id="injuries"
               name="injuries"
               type="checkbox"
             />
-            4. Hattest du in den letzten 12 Monaten eine Verletzung oder
-            Operation?
+            Ja
           </label>
-        </div>
+        </fieldset>
 
         <fieldset className="space-y-4">
           <legend className="mb-3 text-lg font-semibold text-slate-950">
-            5. Deine Kontaktdaten
+            Deine Kontaktdaten
           </legend>
           <div>
-            <label className="block font-medium text-slate-800" htmlFor="first-name">
+            <label
+              className="block font-medium text-slate-800"
+              htmlFor="first-name"
+            >
               Vorname
             </label>
             <input
@@ -112,13 +114,19 @@ export default function Quiz() {
               type="email"
             />
           </div>
+        </fieldset>
+
+        <fieldset className="space-y-3">
+          <legend className="mb-3 text-lg font-semibold text-slate-950">
+            5. Möchtest du Janas Newsletter erhalten?
+          </legend>
           <label className="flex min-h-12 cursor-pointer items-center gap-3 text-slate-800">
             <input
               className="size-5 accent-emerald-800"
               name="newsletter"
               type="checkbox"
             />
-            Ich möchte Janas Newsletter erhalten.
+            Ja, ich möchte Janas Newsletter erhalten.
           </label>
         </fieldset>
 
