@@ -7,11 +7,20 @@ import { evaluateQuiz, type QuizAnswers, type QuizEvaluation } from "./evaluatio
 const questions = [
   {
     legend: "Was ist dein Ziel?",
-    options: ["Fit werden", "Erste 5 km", "10 km unter einer Stunde", "Halbmarathon"],
+    options: [
+      "Fit werden",
+      "Erste 5 km",
+      "10 km unter einer Stunde",
+      "Halbmarathon",
+    ],
   },
   {
     legend: "Wie viel läufst du gerade?",
-    options: ["Ich fange gerade an", "Ich laufe ab und zu", "Ich laufe regelmäßig"],
+    options: [
+      "Ich fange gerade an",
+      "Ich laufe ab und zu",
+      "Ich laufe regelmäßig",
+    ],
   },
   {
     legend: "Wie viel Zeit hast du pro Woche?",
@@ -131,7 +140,7 @@ export default function Quiz() {
             </legend>
             <label className="flex min-h-12 cursor-pointer items-center gap-3 text-slate-800">
               <input className="size-5 accent-emerald-800" name="injuries" type="checkbox" />
-              Ja
+              Ja, ich hatte eine Verletzung oder Operation.
             </label>
           </fieldset>
 
@@ -151,14 +160,34 @@ export default function Quiz() {
           </fieldset>
 
           <fieldset className="space-y-4">
-            <legend className="mb-3 text-lg font-semibold text-slate-950">Deine Kontaktdaten</legend>
+            <legend className="mb-3 text-lg font-semibold text-slate-950">
+              Deine Kontaktdaten
+            </legend>
             <div>
-              <label className="block font-medium text-slate-800" htmlFor="first-name">Vorname</label>
-              <input autoComplete="given-name" className="mt-2 min-h-12 w-full rounded-lg border border-slate-400 bg-white px-3 text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800" id="first-name" name="firstName" required type="text" />
+              <label className="block font-medium text-slate-800" htmlFor="first-name">
+                Vorname
+              </label>
+              <input
+                autoComplete="given-name"
+                className="mt-2 min-h-12 w-full rounded-lg border border-slate-400 bg-white px-3 text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
+                id="first-name"
+                name="firstName"
+                required
+                type="text"
+              />
             </div>
             <div>
-              <label className="block font-medium text-slate-800" htmlFor="email">E-Mail-Adresse</label>
-              <input autoComplete="email" className="mt-2 min-h-12 w-full rounded-lg border border-slate-400 bg-white px-3 text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800" id="email" name="email" required type="email" />
+              <label className="block font-medium text-slate-800" htmlFor="email">
+                E-Mail-Adresse
+              </label>
+              <input
+                autoComplete="email"
+                className="mt-2 min-h-12 w-full rounded-lg border border-slate-400 bg-white px-3 text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
+                id="email"
+                name="email"
+                required
+                type="email"
+              />
             </div>
           </fieldset>
 
