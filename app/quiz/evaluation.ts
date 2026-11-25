@@ -1,6 +1,15 @@
 export const quizOptions = {
-  goal: ["Fit werden", "Erste 5 km", "10 km unter einer Stunde", "Halbmarathon"],
-  frequency: ["Ich fange gerade an", "Ich laufe ab und zu", "Ich laufe regelmäßig"],
+  goal: [
+    "Fit werden",
+    "Erste 5 km",
+    "10 km unter einer Stunde",
+    "Halbmarathon",
+  ],
+  frequency: [
+    "Ich fange gerade an",
+    "Ich laufe ab und zu",
+    "Ich laufe regelmäßig",
+  ],
   weeklyTime: ["1 bis 2 Stunden", "2 bis 4 Stunden", "Mehr als 4 Stunden"],
 } as const;
 

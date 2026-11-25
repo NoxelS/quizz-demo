@@ -1,6 +1,9 @@
-import { evaluateQuiz, quizOptions, type QuizAnswers } from "@/app/quiz/evaluation";
+import {
+  evaluateQuiz,
+  type QuizAnswers,
+  quizOptions,
+} from "@/app/quiz/evaluation";
 import { getPool } from "@/lib/database";
-
 
 type Submission = {
   firstName: string;
@@ -9,12 +12,18 @@ type Submission = {
   newsletter: boolean;
 };
 
-function isOption<const Options extends readonly string[]>(options: Options, value: unknown): value is Options[number] {
-  return typeof value === "string" && options.some((option) => option === value);
+function isOption<const Options extends readonly string[]>(
+  options: Options,
+  value: unknown,
+): value is Options[number] {
+  return (
+    typeof value === "string" && options.some((option) => option === value)
+  );
 }
 
 function parseSubmission(input: unknown): Submission | null {
-  if (typeof input !== "object" || input === null || Array.isArray(input)) return null;
+  if (typeof input !== "object" || input === null || Array.isArray(input))
+    return null;
   const value = input as Record<string, unknown>;
   if (
     typeof value.firstName !== "string" ||
@@ -64,7 +73,8 @@ export async function POST(request: Request) {
   }
 
   const submission = parseSubmission(input);
-  if (!submission) return Response.json({ error: "Ungültige Angaben." }, { status: 400 });
+  if (!submission)
+    return Response.json({ error: "Ungültige Angaben." }, { status: 400 });
 
   const evaluation = evaluateQuiz(submission.answers);
   try {
@@ -83,7 +93,13 @@ export async function POST(request: Request) {
       ],
     );
   } catch {
-    return Response.json({ error: "Deine Angaben konnten nicht gespeichert werden. Bitte versuche es erneut." }, { status: 503 });
+    return Response.json(
+      {
+        error:
+          "Deine Angaben konnten nicht gespeichert werden. Bitte versuche es erneut.",
+      },
+      { status: 503 },
+    );
   }
 
   return Response.json(evaluation, { status: 201 });

@@ -24,7 +24,8 @@ function rowsForEmail() {
     [databaseUrl, "-X", "-qAt", "-v", `email=${email}`],
     {
       encoding: "utf8",
-      input: "SELECT COALESCE(json_agg(row_to_json(leads)), '[]'::json) FROM (SELECT vorname, nachname, email, ziel, erfahrung, zeit_pro_woche, verletzungen, akute_schmerzen, laeufertyp, newsletter, utm_source, utm_campaign, utm_content FROM leads WHERE email = :'email') AS leads;\n",
+      input:
+        "SELECT COALESCE(json_agg(row_to_json(leads)), '[]'::json) FROM (SELECT vorname, nachname, email, ziel, erfahrung, zeit_pro_woche, verletzungen, akute_schmerzen, laeufertyp, newsletter, utm_source, utm_campaign, utm_content FROM leads WHERE email = :'email') AS leads;\n",
     },
   );
   return JSON.parse(result);
@@ -81,14 +82,9 @@ test("lead API stores validated submissions and rejects invalid requests", async
     assert.equal(malformed.status, 400);
     assert.equal(rowsForEmail().length, 1);
   } finally {
-    execFileSync(
-      "psql",
-      [databaseUrl, "-X", "-q", "-v", `email=${email}`],
-      {
-        input: "DELETE FROM leads WHERE email = :'email';\n",
-        stdio: ["pipe", "ignore", "ignore"],
-      },
-    );
+    execFileSync("psql", [databaseUrl, "-X", "-q", "-v", `email=${email}`], {
+      input: "DELETE FROM leads WHERE email = :'email';\n",
+      stdio: ["pipe", "ignore", "ignore"],
+    });
   }
 });
-

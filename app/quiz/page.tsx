@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { quizOptions, type QuizAnswers, type QuizEvaluation } from "./evaluation";
+import {
+  type QuizAnswers,
+  type QuizEvaluation,
+  quizOptions,
+} from "./evaluation";
 
 const questions: { legend: string; options: readonly string[] }[] = [
   {
@@ -69,12 +73,16 @@ export default function Quiz() {
         }),
       });
       if (response.status !== 201) {
-        setError("Deine Angaben konnten nicht gespeichert werden. Bitte versuche es erneut.");
+        setError(
+          "Deine Angaben konnten nicht gespeichert werden. Bitte versuche es erneut.",
+        );
         return;
       }
       setResult((await response.json()) as QuizEvaluation);
     } catch {
-      setError("Deine Angaben konnten nicht gespeichert werden. Bitte versuche es erneut.");
+      setError(
+        "Deine Angaben konnten nicht gespeichert werden. Bitte versuche es erneut.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -146,7 +154,12 @@ export default function Quiz() {
           </button>
         </section>
       ) : (
-        <form className="mt-8 space-y-8" method="post" onSubmit={handleSubmit} ref={formRef}>
+        <form
+          className="mt-8 space-y-8"
+          method="post"
+          onSubmit={handleSubmit}
+          ref={formRef}
+        >
           {questions.map(({ legend, options }, questionIndex) => (
             <fieldset className="space-y-3" key={legend}>
               <legend className="mb-3 text-lg font-semibold text-slate-950">
@@ -251,11 +264,17 @@ export default function Quiz() {
               Einwilligung zur Speicherung
             </legend>
             <label className="flex min-h-12 cursor-pointer items-center gap-3 text-slate-800">
-              <input className="size-5 accent-emerald-800" name="consent" required type="checkbox" />
-              Ich willige ein, dass meine Kontaktdaten und Quizantworten einschließlich Gesundheitsangaben zur Erstellung meiner Auswertung gespeichert werden.
+              <input
+                className="size-5 accent-emerald-800"
+                name="consent"
+                required
+                type="checkbox"
+              />
+              Ich willige ein, dass meine Kontaktdaten und Quizantworten
+              einschließlich Gesundheitsangaben zur Erstellung meiner Auswertung
+              gespeichert werden.
             </label>
           </fieldset>
-
 
           <fieldset className="space-y-3">
             <legend className="mb-3 text-lg font-semibold text-slate-950">
