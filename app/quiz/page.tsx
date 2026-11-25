@@ -6,11 +6,20 @@ import { useRouter } from "next/navigation";
 const questions = [
   {
     legend: "Was ist dein Ziel?",
-    options: ["Fit werden", "Erste 5 km", "10 km unter einer Stunde", "Halbmarathon"],
+    options: [
+      "Fit werden",
+      "Erste 5 km",
+      "10 km unter einer Stunde",
+      "Halbmarathon",
+    ],
   },
   {
     legend: "Wie viel läufst du gerade?",
-    options: ["Ich fange gerade an", "Ich laufe ab und zu", "Ich laufe regelmäßig"],
+    options: [
+      "Ich fange gerade an",
+      "Ich laufe ab und zu",
+      "Ich laufe regelmäßig",
+    ],
   },
   {
     legend: "Wie viel Zeit hast du pro Woche?",
