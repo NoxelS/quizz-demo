@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   type QuizAnswers,
   type QuizEvaluation,
@@ -25,9 +25,14 @@ const questions: { legend: string; options: readonly string[] }[] = [
 
 export default function Quiz() {
   const formRef = useRef<HTMLFormElement>(null);
+  const [ready, setReady] = useState(false);
   const [result, setResult] = useState<QuizEvaluation | null>(null);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    setReady(true);
+  }, []);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -110,7 +115,11 @@ export default function Quiz() {
         einschließlich Angaben zu Verletzungen und akuten Schmerzen sowie deinen
         berechneten Läufertyp. Dafür ist deine ausdrückliche Einwilligung nötig.
       </p>
-      {result ? (
+      {!ready ? (
+        <p className="mt-8 leading-7 text-slate-700">
+          Bitte aktiviere JavaScript, um das Quiz zu nutzen.
+        </p>
+      ) : result ? (
         <section aria-live="polite" className="mt-8 space-y-5">
           <h2 className="text-2xl font-bold text-slate-950">
             {result.runnerType}
