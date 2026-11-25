@@ -9,7 +9,7 @@
     "lint": "biome check",
     "format": "biome format --write",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "node --experimental-strip-types --test app/quiz/evaluation.test.mjs app/api/calendly/handler.test.mjs lib/probes.test.mjs",
+    "test": "node --experimental-strip-types --test app/quiz/evaluation.test.mjs app/api/calendly/handler.test.mjs lib/probes.test.mjs lib/request-body.test.mjs",
     "test:integration": "node --experimental-strip-types --test app/api/leads/route.test.mjs app/api/calendly/integration.test.mjs",
     "test:calendly:recorded": "node --experimental-strip-types --test app/api/calendly/route.recorded.test.mjs"
   },

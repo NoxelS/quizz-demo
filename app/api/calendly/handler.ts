@@ -1,4 +1,8 @@
 import { createHash, createHmac, timingSafeEqual } from "node:crypto";
+import {
+  BodyTooLargeError,
+  readLimitedBody,
+} from "../../../lib/request-body.mjs";
 
 export type CalendlyEvent = {
   deliveryHash: string;
@@ -13,8 +17,15 @@ export async function handleCalendly(
   signingKey: string | undefined,
   store: (event: CalendlyEvent) => Promise<unknown>,
 ): Promise<Response> {
-  const rawBody = await request.text();
   if (!signingKey) return new Response(null, { status: 503 });
+  let rawBody: string;
+  try {
+    rawBody = await readLimitedBody(request, 64 * 1024);
+  } catch (error) {
+    return new Response(null, {
+      status: error instanceof BodyTooLargeError ? 413 : 400,
+    });
+  }
   const match = request.headers
     .get("calendly-webhook-signature")
     ?.match(/^t=(\d+),v1=([\da-fA-F]{64})$/);
