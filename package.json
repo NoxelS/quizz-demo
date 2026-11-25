@@ -9,7 +9,7 @@
     "lint": "biome check",
     "format": "biome format --write",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "node --experimental-strip-types --test app/quiz/evaluation.test.mjs",
+    "test": "node --experimental-strip-types --test app/quiz/evaluation.test.mjs app/api/calendly/route.test.mjs",
     "test:integration": "node --experimental-strip-types --test app/api/leads/route.test.mjs"
   },
   "dependencies": {
