@@ -13,7 +13,11 @@ export type QuizAnswers = {
 };
 
 export type QuizEvaluation = {
-  runnerType: "Wiedereinsteiger" | "Zielläufer" | "Genussläufer" | "Ambitionierte";
+  runnerType:
+    | "Wiedereinsteiger"
+    | "Zielläufer"
+    | "Genussläufer"
+    | "Ambitionierte";
   explanation: string;
   weeklyTime: QuizAnswers["weeklyTime"];
   blocks: string[];
@@ -36,14 +40,40 @@ export function evaluateQuiz(answers: QuizAnswers): QuizEvaluation {
 
   if (!acutePain) blocks.push("Lockerer Dauerlauf (30 bis 60 Min)");
   if (!acutePain && (beginner || injury)) blocks.push("Lauf-Geh-Wechsel");
-  if (!acutePain && !injury && frequency === "Ich laufe regelmäßig") blocks.push("Steigerungsläufe (4 bis 6 mal 80 m)");
-  if (!acutePain && !injury && frequency === "Ich laufe regelmäßig" && (goal === "10 km unter einer Stunde" || goal === "Halbmarathon")) blocks.push("Intervalle (z. B. 6 mal 400 m)");
-  if (!acutePain && !injury && runnerType === "Ambitionierte") blocks.push("Bergläufe");
-  if (!acutePain && goal === "Halbmarathon" && !beginner) blocks.push("Langer Lauf (bis 2 Std)");
-  blocks.push("Kraft für Läufer (20 Min, zu Hause)", "Mobilität und Dehnen (15 Min)", "Radfahren oder Schwimmen als Ausgleich", "Ruhetag");
+  if (!acutePain && !injury && frequency === "Ich laufe regelmäßig")
+    blocks.push("Steigerungsläufe (4 bis 6 mal 80 m)");
+  if (
+    !acutePain &&
+    !injury &&
+    frequency === "Ich laufe regelmäßig" &&
+    (goal === "10 km unter einer Stunde" || goal === "Halbmarathon")
+  )
+    blocks.push("Intervalle (z. B. 6 mal 400 m)");
+  if (!acutePain && !injury && runnerType === "Ambitionierte")
+    blocks.push("Bergläufe");
+  if (!acutePain && goal === "Halbmarathon" && !beginner)
+    blocks.push("Langer Lauf (bis 2 Std)");
+  blocks.push(
+    "Kraft für Läufer (20 Min, zu Hause)",
+    "Mobilität und Dehnen (15 Min)",
+    "Radfahren oder Schwimmen als Ausgleich",
+    "Ruhetag",
+  );
 
   const advice: string[] = [];
-  if (injury) advice.push("Stimme das Training nach einer Verletzung oder Operation in den letzten 12 Monaten mit einer Ärztin oder einem Arzt ab.");
-  if (acutePain) advice.push("Vermeide schmerzhafte Aktivitäten und lass die akuten Schmerzen ärztlich abklären.");
-  return { runnerType, explanation, weeklyTime: answers.weeklyTime, blocks, advice };
+  if (injury)
+    advice.push(
+      "Stimme das Training nach einer Verletzung oder Operation in den letzten 12 Monaten mit einer Ärztin oder einem Arzt ab.",
+    );
+  if (acutePain)
+    advice.push(
+      "Vermeide schmerzhafte Aktivitäten und lass die akuten Schmerzen ärztlich abklären.",
+    );
+  return {
+    runnerType,
+    explanation,
+    weeklyTime: answers.weeklyTime,
+    blocks,
+    advice,
+  };
 }

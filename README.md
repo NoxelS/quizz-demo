@@ -20,3 +20,7 @@ Open http://localhost:3000. Apply the migration once to a fresh database; it int
 The quiz stores contact details, answers including injury and acute-pain responses, and the calculated runner type after explicit consent. Newsletter opt-in is separate. `DATABASE_URL` is server-only and must never use a `NEXT_PUBLIC_` prefix. The sample credentials are for local development only; production must supply independent credentials and suitable database access controls. The notice and consent wording are not a substitute for production privacy/legal review. This demo does not import historical CSV leads or collect surname/UTM values.
 
 Run `node --env-file=.env.local --experimental-strip-types --test app/api/leads/route.test.mjs` against the running app and migrated local database. Run `node --experimental-strip-types --test app/quiz/evaluation.test.mjs`, `pnpm lint`, and `pnpm typecheck` for checks.
+
+## Tests
+
+Requires Node.js 22. Run function tests with `pnpm test`; test files belong under `app` and use the `*.test.mjs` naming convention.
