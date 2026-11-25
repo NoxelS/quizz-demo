@@ -64,3 +64,12 @@ test("rejects missing and malformed signatures, invalid JSON and missing configu
   assert.equal((await handleCalendly(request("[]"), key, store)).status, 400);
   assert.equal((await handleCalendly(request(), undefined, store)).status, 503);
 });
+
+test("rejects oversized webhook bodies without storing them", async () => {
+  const response = await handleCalendly(
+    request("x".repeat(65537)),
+    key,
+    async () => assert.fail("must not store"),
+  );
+  assert.equal(response.status, 413);
+});

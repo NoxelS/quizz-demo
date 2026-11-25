@@ -4,6 +4,7 @@ import {
   quizOptions,
 } from "@/app/quiz/evaluation";
 import { getPool } from "@/lib/database";
+import { BodyTooLargeError, readLimitedBody } from "@/lib/request-body.mjs";
 
 type Submission = {
   firstName: string;
@@ -67,8 +68,10 @@ function parseSubmission(input: unknown): Submission | null {
 export async function POST(request: Request) {
   let input: unknown;
   try {
-    input = await request.json();
-  } catch {
+    input = JSON.parse(await readLimitedBody(request, 16 * 1024));
+  } catch (error) {
+    if (error instanceof BodyTooLargeError)
+      return Response.json({ error: "Anfrage zu groß." }, { status: 413 });
     return Response.json({ error: "Ungültige Angaben." }, { status: 400 });
   }
 
