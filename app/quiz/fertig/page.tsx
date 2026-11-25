@@ -7,11 +7,11 @@ export default function QuizFinished() {
         Jana Pohl Running
       </p>
       <h1 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-        Danke fürs Mitmachen
+        Auswertung nach dem Quiz
       </h1>
       <p className="text-lg leading-8 text-slate-700">
-        Deine Antworten wurden nicht gespeichert oder versendet. Die Auswertung
-        erscheint direkt nach dem Quizabschluss.
+        Die Auswertung wird nach erfolgreicher Übermittlung deiner Antworten
+        angezeigt. Starte das Quiz, um deine Auswertung anzufordern.
       </p>
       <Link
         className="inline-flex min-h-12 w-fit items-center justify-center rounded-lg bg-emerald-800 px-6 py-3 font-semibold text-white hover:bg-emerald-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"

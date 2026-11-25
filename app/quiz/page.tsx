@@ -3,32 +3,23 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 import {
-  evaluateQuiz,
   type QuizAnswers,
   type QuizEvaluation,
+  quizOptions,
 } from "./evaluation";
 
-const questions = [
+const questions: { legend: string; options: readonly string[] }[] = [
   {
     legend: "Was ist dein Ziel?",
-    options: [
-      "Fit werden",
-      "Erste 5 km",
-      "10 km unter einer Stunde",
-      "Halbmarathon",
-    ],
+    options: quizOptions.goal,
   },
   {
     legend: "Wie viel läufst du gerade?",
-    options: [
-      "Ich fange gerade an",
-      "Ich laufe ab und zu",
-      "Ich laufe regelmäßig",
-    ],
+    options: quizOptions.frequency,
   },
   {
     legend: "Wie viel Zeit hast du pro Woche?",
-    options: ["1 bis 2 Stunden", "2 bis 4 Stunden", "Mehr als 4 Stunden"],
+    options: quizOptions.weeklyTime,
   },
 ];
 
@@ -36,8 +27,9 @@ export default function Quiz() {
   const formRef = useRef<HTMLFormElement>(null);
   const [result, setResult] = useState<QuizEvaluation | null>(null);
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const goal = data.get("question-1");
@@ -67,7 +59,33 @@ export default function Quiz() {
       return;
     }
     setError("");
-    setResult(evaluateQuiz(answers));
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          firstName: data.get("firstName"),
+          email: data.get("email"),
+          ...answers,
+          newsletter: data.has("newsletter"),
+          consent: data.has("consent"),
+        }),
+      });
+      if (response.status !== 201) {
+        setError(
+          "Deine Angaben konnten nicht gespeichert werden. Bitte versuche es erneut.",
+        );
+        return;
+      }
+      setResult((await response.json()) as QuizEvaluation);
+    } catch {
+      setError(
+        "Deine Angaben konnten nicht gespeichert werden. Bitte versuche es erneut.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   function restart() {
@@ -88,10 +106,10 @@ export default function Quiz() {
         Welcher Läufertyp bist du?
       </h1>
       <p className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-4 leading-6 text-slate-800">
-        Dies ist eine Frontend-Demo: Deine Angaben werden nicht gespeichert oder
-        versendet und gehen beim Neuladen oder Verlassen der Seite verloren.
+        Beim Absenden speichern wir deine Kontaktdaten, deine Quizantworten
+        einschließlich Angaben zu Verletzungen und akuten Schmerzen sowie deinen
+        berechneten Läufertyp. Dafür ist deine ausdrückliche Einwilligung nötig.
       </p>
-
       {result ? (
         <section aria-live="polite" className="mt-8 space-y-5">
           <h2 className="text-2xl font-bold text-slate-950">
@@ -136,7 +154,12 @@ export default function Quiz() {
           </button>
         </section>
       ) : (
-        <form className="mt-8 space-y-8" onSubmit={handleSubmit} ref={formRef}>
+        <form
+          className="mt-8 space-y-8"
+          method="post"
+          onSubmit={handleSubmit}
+          ref={formRef}
+        >
           {questions.map(({ legend, options }, questionIndex) => (
             <fieldset className="space-y-3" key={legend}>
               <legend className="mb-3 text-lg font-semibold text-slate-950">
@@ -236,6 +259,22 @@ export default function Quiz() {
               />
             </div>
           </fieldset>
+          <fieldset className="space-y-3">
+            <legend className="mb-3 text-lg font-semibold text-slate-950">
+              Einwilligung zur Speicherung
+            </legend>
+            <label className="flex min-h-12 cursor-pointer items-center gap-3 text-slate-800">
+              <input
+                className="size-5 accent-emerald-800"
+                name="consent"
+                required
+                type="checkbox"
+              />
+              Ich willige ein, dass meine Kontaktdaten und Quizantworten
+              einschließlich Gesundheitsangaben zur Erstellung meiner Auswertung
+              gespeichert werden.
+            </label>
+          </fieldset>
 
           <fieldset className="space-y-3">
             <legend className="mb-3 text-lg font-semibold text-slate-950">
@@ -257,10 +296,11 @@ export default function Quiz() {
             </p>
           )}
           <button
-            className="min-h-12 w-full rounded-lg bg-emerald-800 px-6 py-3 font-semibold text-white hover:bg-emerald-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:w-auto"
+            className="min-h-12 w-full rounded-lg bg-emerald-800 px-6 py-3 font-semibold text-white hover:bg-emerald-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:w-auto disabled:cursor-not-allowed disabled:opacity-60"
+            disabled={isSubmitting}
             type="submit"
           >
-            Quiz abschließen
+            {isSubmitting ? "Wird gespeichert…" : "Quiz abschließen"}
           </button>
         </form>
       )}

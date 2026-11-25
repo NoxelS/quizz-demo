@@ -1,14 +1,22 @@
+export const quizOptions = {
+  goal: [
+    "Fit werden",
+    "Erste 5 km",
+    "10 km unter einer Stunde",
+    "Halbmarathon",
+  ],
+  frequency: [
+    "Ich fange gerade an",
+    "Ich laufe ab und zu",
+    "Ich laufe regelmäßig",
+  ],
+  weeklyTime: ["1 bis 2 Stunden", "2 bis 4 Stunden", "Mehr als 4 Stunden"],
+} as const;
+
 export type QuizAnswers = {
-  goal:
-    | "Fit werden"
-    | "Erste 5 km"
-    | "10 km unter einer Stunde"
-    | "Halbmarathon";
-  frequency:
-    | "Ich fange gerade an"
-    | "Ich laufe ab und zu"
-    | "Ich laufe regelmäßig";
-  weeklyTime: "1 bis 2 Stunden" | "2 bis 4 Stunden" | "Mehr als 4 Stunden";
+  goal: (typeof quizOptions.goal)[number];
+  frequency: (typeof quizOptions.frequency)[number];
+  weeklyTime: (typeof quizOptions.weeklyTime)[number];
   injury: boolean;
   acutePain: boolean;
 };
