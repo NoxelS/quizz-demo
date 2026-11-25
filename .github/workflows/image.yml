@@ -16,6 +16,7 @@ jobs:
     env:
       DATABASE_URL: postgresql://quiz:quiz@localhost:5432/quiz
       BASE_URL: http://localhost:3000
+      CALENDLY_WEBHOOK_SIGNING_KEY: ci-test-signing-key
     services:
       postgres:
         image: postgres:16
@@ -40,6 +41,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: sudo apt-get update && sudo apt-get install -y postgresql-client
       - run: psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f migrations/001_create_leads.sql
+      - run: psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f migrations/002_calendly_events.sql
       - run: pnpm test
       - name: Run PostgreSQL integration test
         run: |
@@ -74,6 +76,8 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           context: .
+          build-args: |
+            NEXT_PUBLIC_CALENDLY_URL=https://calendly.com/noel-schwabenland-pm/30min
           push: ${{ github.event_name == 'push' }}
           tags: |
             ${{ steps.image.outputs.name }}:latest

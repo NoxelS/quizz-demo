@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { createHmac } from "node:crypto";
 import { readdir, readFile } from "node:fs/promises";
 import test from "node:test";
-import { POST } from "./route.ts";
+import { handleCalendly } from "./handler.ts";
 
 const fixtureDirectory = new URL(
   "../../../exercise-data/calendly-webhooks/",
@@ -64,14 +64,16 @@ test("replays the ten recorded deliveries with their original bodies and signatu
       const validSignature =
         timestamp &&
         signature(delivery.body, signingKey, timestamp) === recordedSignature;
-      const response = await POST(
+      const response = await handleCalendly(
         new Request("http://localhost/api/calendly", {
           method: "POST",
           headers: { "calendly-webhook-signature": recordedSignature },
           body: delivery.body,
         }),
+        signingKey,
+        async () => {},
       );
-      assert.equal(response.status, validSignature ? 503 : 401);
+      assert.equal(response.status, validSignature ? 200 : 401);
       if (validSignature) {
         if (delivery.body.includes("invitee.created")) acceptedCreated = true;
         if (delivery.body.includes("invitee.canceled")) acceptedCanceled = true;
