@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { evaluateQuiz, type QuizAnswers, type QuizEvaluation } from "./evaluation";
+import {
+  evaluateQuiz,
+  type QuizAnswers,
+  type QuizEvaluation,
+} from "./evaluation";
 
 const questions = [
   {
@@ -57,7 +61,9 @@ export default function Quiz() {
         : null;
 
     if (!answers) {
-      setError("Bitte prüfe deine Antworten und wähle auch eine Antwort zu akuten Schmerzen.");
+      setError(
+        "Bitte prüfe deine Antworten und wähle auch eine Antwort zu akuten Schmerzen.",
+      );
       return;
     }
     setError("");
@@ -88,22 +94,36 @@ export default function Quiz() {
 
       {result ? (
         <section aria-live="polite" className="mt-8 space-y-5">
-          <h2 className="text-2xl font-bold text-slate-950">{result.runnerType}</h2>
+          <h2 className="text-2xl font-bold text-slate-950">
+            {result.runnerType}
+          </h2>
           <p className="leading-7 text-slate-700">{result.explanation}</p>
           <p className="leading-7 text-slate-700">
-            Deine verfügbare Zeit pro Woche: {result.weeklyTime}. Sie dient hier als Kontext; daraus wird kein Wochenplan abgeleitet.
+            Deine verfügbare Zeit pro Woche: {result.weeklyTime}. Sie dient hier
+            als Kontext; daraus wird kein Wochenplan abgeleitet.
           </p>
           <div>
-            <h3 className="text-lg font-semibold text-slate-950">Passende Trainingsbausteine</h3>
+            <h3 className="text-lg font-semibold text-slate-950">
+              Passende Trainingsbausteine
+            </h3>
             <ul className="mt-2 list-disc space-y-1 pl-6 text-slate-700">
-              {result.blocks.map((block) => <li key={block}>{block}</li>)}
+              {result.blocks.map((block) => (
+                <li key={block}>{block}</li>
+              ))}
             </ul>
           </div>
           {result.advice.length > 0 && (
-            <div role="alert" className="rounded-lg border border-amber-300 bg-amber-50 p-4">
-              <h3 className="font-semibold text-slate-950">Wichtiger Hinweis</h3>
+            <div
+              role="alert"
+              className="rounded-lg border border-amber-300 bg-amber-50 p-4"
+            >
+              <h3 className="font-semibold text-slate-950">
+                Wichtiger Hinweis
+              </h3>
               <ul className="mt-2 list-disc space-y-1 pl-6 text-slate-800">
-                {result.advice.map((advice) => <li key={advice}>{advice}</li>)}
+                {result.advice.map((advice) => (
+                  <li key={advice}>{advice}</li>
+                ))}
               </ul>
             </div>
           )}
@@ -127,7 +147,13 @@ export default function Quiz() {
                   className="flex min-h-12 cursor-pointer items-center gap-3 rounded-lg border border-slate-300 px-4 py-3 text-slate-800 hover:bg-slate-50 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-emerald-800"
                   key={option}
                 >
-                  <input className="size-5 accent-emerald-800" name={`question-${questionIndex + 1}`} required type="radio" value={option} />
+                  <input
+                    className="size-5 accent-emerald-800"
+                    name={`question-${questionIndex + 1}`}
+                    required
+                    type="radio"
+                    value={option}
+                  />
                   {option}
                 </label>
               ))}
@@ -136,10 +162,15 @@ export default function Quiz() {
 
           <fieldset className="space-y-3">
             <legend className="mb-3 text-lg font-semibold text-slate-950">
-              4. Hattest du in den letzten 12 Monaten eine Verletzung oder Operation?
+              4. Hattest du in den letzten 12 Monaten eine Verletzung oder
+              Operation?
             </legend>
             <label className="flex min-h-12 cursor-pointer items-center gap-3 text-slate-800">
-              <input className="size-5 accent-emerald-800" name="injuries" type="checkbox" />
+              <input
+                className="size-5 accent-emerald-800"
+                name="injuries"
+                type="checkbox"
+              />
               Ja, ich hatte eine Verletzung oder Operation.
             </label>
           </fieldset>
@@ -152,8 +183,17 @@ export default function Quiz() {
               ["yes", "Ja"],
               ["no", "Nein"],
             ].map(([value, label]) => (
-              <label className="flex min-h-12 cursor-pointer items-center gap-3 text-slate-800" key={value}>
-                <input className="size-5 accent-emerald-800" name="acutePain" required type="radio" value={value} />
+              <label
+                className="flex min-h-12 cursor-pointer items-center gap-3 text-slate-800"
+                key={value}
+              >
+                <input
+                  className="size-5 accent-emerald-800"
+                  name="acutePain"
+                  required
+                  type="radio"
+                  value={value}
+                />
                 {label}
               </label>
             ))}
@@ -164,7 +204,10 @@ export default function Quiz() {
               Deine Kontaktdaten
             </legend>
             <div>
-              <label className="block font-medium text-slate-800" htmlFor="first-name">
+              <label
+                className="block font-medium text-slate-800"
+                htmlFor="first-name"
+              >
                 Vorname
               </label>
               <input
@@ -177,7 +220,10 @@ export default function Quiz() {
               />
             </div>
             <div>
-              <label className="block font-medium text-slate-800" htmlFor="email">
+              <label
+                className="block font-medium text-slate-800"
+                htmlFor="email"
+              >
                 E-Mail-Adresse
               </label>
               <input
@@ -196,12 +242,20 @@ export default function Quiz() {
               6. Möchtest du Janas Newsletter erhalten?
             </legend>
             <label className="flex min-h-12 cursor-pointer items-center gap-3 text-slate-800">
-              <input className="size-5 accent-emerald-800" name="newsletter" type="checkbox" />
+              <input
+                className="size-5 accent-emerald-800"
+                name="newsletter"
+                type="checkbox"
+              />
               Ja, ich möchte Janas Newsletter erhalten.
             </label>
           </fieldset>
 
-          {error && <p className="text-red-700" role="alert">{error}</p>}
+          {error && (
+            <p className="text-red-700" role="alert">
+              {error}
+            </p>
+          )}
           <button
             className="min-h-12 w-full rounded-lg bg-emerald-800 px-6 py-3 font-semibold text-white hover:bg-emerald-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 sm:w-auto"
             type="submit"
