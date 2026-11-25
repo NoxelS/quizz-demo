@@ -1,2 +1,14 @@
-# quizz-demo
-AI-powered running quiz and lead conversion funnel built with Next.js, featuring personalized training recommendations, Calendly booking integration, and lead management.
+# Quizz Lead Funnel Demo
+
+Scaffold for Jana Pohl Running's quiz and lead funnel. The quiz and integrations are not implemented yet.
+
+## Getting started
+
+Requires Node.js 22 and pnpm 12.
+
+```sh
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+Open http://localhost:3000. Run `pnpm lint`, `pnpm typecheck`, and `pnpm build` to check the application.
