@@ -1,10 +1,6 @@
 import { getPool } from "@/lib/database";
+import { readiness } from "@/lib/probes.mjs";
 
-export async function GET() {
-  try {
-    await getPool().query("SELECT 1");
-    return Response.json({ status: "ready" });
-  } catch {
-    return Response.json({ status: "not ready" }, { status: 503 });
-  }
+export function GET() {
+  return readiness(() => getPool().query("SELECT 1"));
 }

@@ -1,3 +1,5 @@
+import { health } from "@/lib/probes.mjs";
+
 export function GET() {
-  return Response.json({ status: "ok" });
+  return health();
 }
