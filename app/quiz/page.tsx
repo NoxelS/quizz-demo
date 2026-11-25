@@ -77,7 +77,7 @@ export default function Quiz() {
               name="injuries"
               type="checkbox"
             />
-            Ja
+            Ja, ich hatte eine Verletzung oder Operation.
           </label>
         </fieldset>
 
