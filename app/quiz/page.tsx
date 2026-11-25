@@ -145,6 +145,16 @@ export default function Quiz() {
               </ul>
             </div>
           )}
+          {process.env.NEXT_PUBLIC_CALENDLY_URL && (
+            <a
+              className="inline-block min-h-12 rounded-lg border border-emerald-800 px-6 py-3 font-semibold text-emerald-900 hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
+              href={process.env.NEXT_PUBLIC_CALENDLY_URL}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Gespräch mit Mara oder Jana buchen
+            </a>
+          )}
           <button
             className="min-h-12 rounded-lg bg-emerald-800 px-6 py-3 font-semibold text-white hover:bg-emerald-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800"
             onClick={restart}
