@@ -37,6 +37,7 @@ test("regular half-marathon runner receives eligible recommendations in source l
 test("recent injury excludes intense blocks and advises medical consultation", () => {
   const result = evaluateQuiz({ ...regularHalfMarathon, injury: true });
   assert.ok(result.advice.some((advice) => advice.includes("Ärztin") && advice.includes("Arzt")));
+  assert.ok(result.blocks.every((block) => sourceBlocks.includes(block)));
   assert.ok(!result.blocks.some((block) => ["Steigerungsläufe (4 bis 6 mal 80 m)", "Intervalle (z. B. 6 mal 400 m)", "Bergläufe"].includes(block)));
 });
 
@@ -56,5 +57,6 @@ test("fitness goal distinguishes starting and occasional runners", () => {
 test("acute pain excludes all running blocks and gives explicit advice", () => {
   const result = evaluateQuiz({ ...regularHalfMarathon, acutePain: true });
   assert.ok(!result.blocks.some((block) => ["Lockerer Dauerlauf (30 bis 60 Min)", "Lauf-Geh-Wechsel", "Steigerungsläufe (4 bis 6 mal 80 m)", "Intervalle (z. B. 6 mal 400 m)", "Bergläufe", "Langer Lauf (bis 2 Std)"].includes(block)));
+  assert.ok(result.blocks.every((block) => sourceBlocks.includes(block)));
   assert.ok(result.advice.some((advice) => advice.includes("Vermeide schmerzhafte Aktivitäten")));
 });

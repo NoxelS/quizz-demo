@@ -42,7 +42,7 @@ export default function Quiz() {
             goal: goal as QuizAnswers["goal"],
             frequency: frequency as QuizAnswers["frequency"],
             weeklyTime: weeklyTime as QuizAnswers["weeklyTime"],
-            injury: data.get("injuries") === "on",
+            injury: data.has("injuries"),
             acutePain: data.get("acutePain") === "yes",
           }
         : null;
