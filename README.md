@@ -27,6 +27,6 @@ With the app running and the local database migrated, run `set -a; . ./.env.loca
 
 ## Tests
 
-Requires Node.js 22. `pnpm test` runs the function tests; `pnpm test:integration` runs the PostgreSQL API integration test and requires the running app and migrated database described above.
+Requires Node.js 22. `pnpm test` runs the CI-safe function tests; `pnpm test:integration` runs the PostgreSQL API integration test and requires the running app and migrated database described above.
 
-Calendly webhook tests use the ten recorded requests and signing key from the ignored local `exercise-data/` directory (`posteingang.md` and `calendly-webhooks/`). Supply those files locally before running the webhook test; the recordings and handover credentials are not committed.
+`pnpm test:calendly:recorded` replays the ten recorded webhook requests using their original raw bodies and signatures. It requires the ignored local `exercise-data/posteingang.md` and `exercise-data/calendly-webhooks/`; it fails with instructions if either is missing. The recordings and handover credentials are not committed.

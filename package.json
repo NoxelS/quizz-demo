@@ -10,7 +10,8 @@
     "format": "biome format --write",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "node --experimental-strip-types --test app/quiz/evaluation.test.mjs app/api/calendly/route.test.mjs",
-    "test:integration": "node --experimental-strip-types --test app/api/leads/route.test.mjs"
+    "test:integration": "node --experimental-strip-types --test app/api/leads/route.test.mjs",
+    "test:calendly:recorded": "node --experimental-strip-types --test app/api/calendly/route.recorded.test.mjs"
   },
   "dependencies": {
     "next": "16.4.6",
