@@ -60,3 +60,36 @@ test("acute pain excludes all running blocks and gives explicit advice", () => {
   assert.ok(result.blocks.every((block) => sourceBlocks.includes(block)));
   assert.ok(result.advice.some((advice) => advice.includes("Vermeide schmerzhafte Aktivitäten")));
 });
+ 
+test("injury and acute pain advise against running and preserve weekly time", () => {
+  const weeklyTime = "1 bis 2 Stunden";
+  const result = evaluateQuiz({
+    ...regularHalfMarathon,
+    injury: true,
+    acutePain: true,
+    weeklyTime,
+  });
+  assert.ok(
+    result.advice.some(
+      (advice) => advice.includes("Ärztin") && advice.includes("Arzt"),
+    ),
+  );
+  assert.ok(
+    result.advice.some((advice) =>
+      advice.includes("Vermeide schmerzhafte Aktivitäten"),
+    ),
+  );
+  assert.ok(
+    !result.blocks.some((block) =>
+      [
+        "Lockerer Dauerlauf (30 bis 60 Min)",
+        "Lauf-Geh-Wechsel",
+        "Steigerungsläufe (4 bis 6 mal 80 m)",
+        "Intervalle (z. B. 6 mal 400 m)",
+        "Bergläufe",
+        "Langer Lauf (bis 2 Std)",
+      ].includes(block),
+    ),
+  );
+  assert.equal(result.weeklyTime, weeklyTime);
+});
